@@ -78,7 +78,7 @@ const registerAuth = async (req = request, res = response) => {
 
     res.status(201).json({
       error: false,
-      msg: "Usuario registrado con exito",
+      msg: "Usuario registrado con éxito",
     });
   } catch (error) {
     console.log(error);

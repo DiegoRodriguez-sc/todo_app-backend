@@ -4,6 +4,7 @@ const {
   getUserById,
   getUsers,
   putUser,
+  deleteUser,
 } = require("../controllers/user.controller");
 const { idUserExists } = require("../security/dbValidators");
 const { validateData } = require("../security/validateData");
@@ -32,6 +33,17 @@ router.put(
     validateData,
   ],
   putUser
+);
+
+router.delete(
+  "/:id",
+  [
+    validateJWT,
+    check("id", "No es un id válido").isMongoId(),
+    check("id").custom(idUserExists),
+    validateData,
+  ],
+  deleteUser
 );
 
 module.exports = router;

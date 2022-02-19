@@ -64,14 +64,39 @@ const putUser = async (req = request, res = response) => {
     res.status(500).json({
       error: 500,
       msg: "Hable con el administrador",
-      path: "/api/user",
+      path: "/api/user/{id}",
     });
   }
 };
 
+//Borrado de usuario con token y tiene que ser el mismo usuario
+const deleteUser = async (req = request, res = response) => {
+  const { id } = req.params;
+  try {
+    if (id != req.user._id) {
+      return res.status(401).json({
+        error: 401,
+        msg: "Usuario no autorizado",
+      });
+    }
+    await User.findByIdAndUpdate(id, { state: false });
+    res.status(200).json({
+      error: false,
+      msg: "Usuario borrado",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error: 500,
+      msg: "Hable con el administrador",
+      path: "/api/user/{id}",
+    });
+  }
+};
 
 module.exports = {
   getUsers,
   getUserById,
   putUser,
+  deleteUser,
 };

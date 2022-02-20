@@ -5,6 +5,7 @@ const {
   getTodoById,
   getTodosByUser,
   putTodo,
+  deleteTodo,
 } = require("../controllers/todo.controller");
 const { idTodoExists, idUserExists } = require("../security/dbValidators");
 const { validateData } = require("../security/validateData");
@@ -45,6 +46,17 @@ router.put(
     validateData,
   ],
   putTodo
+);
+
+router.delete(
+  "/:id",
+  [
+    validateJWT,
+    check("id", "No es un id válido").isMongoId(),
+    check("id").custom(idTodoExists),
+    validateData,
+  ],
+  deleteTodo
 );
 
 module.exports = router;

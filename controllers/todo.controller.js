@@ -113,7 +113,23 @@ const putTodo = async (req = request, res = response) => {
 };
 
 //Eliminar todo / privado solo usuarios con token
-const deleteTodo = async (req = request, res = response) => {};
+const deleteTodo = async (req = request, res = response) => {
+  const { id } = req.params;
+  try {
+    await Todo.findByIdAndRemove(id);
+    res.status(200).json({
+      error: false,
+      msg: "Todo borrado",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error: 500,
+      msg: "Hable con el administrador",
+      path: "/api/todo/{id}",
+    });
+  }
+};
 module.exports = {
   getTodoById,
   getTodosByUser,

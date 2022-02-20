@@ -16,7 +16,7 @@ const getTodoById = async (req = request, res = response) => {
     res.status(500).json({
       error: 500,
       msg: "Hable con el administrador",
-      path: "/api/todo",
+      path: "/api/todo/{id}",
     });
   }
 };
@@ -38,7 +38,7 @@ const getTodosByUser = async (req = request, res = response) => {
     res.status(500).json({
       error: 500,
       msg: "Hable con el administrador",
-      path: "/api/todo/user=?",
+      path: "/api/todo/user/{id}",
     });
   }
 };
@@ -63,7 +63,7 @@ const postTodo = async (req = request, res = response) => {
       return res.status(400).json({
         error: 400,
         msg: `${category} no es una categoria válida, categorias validas:"WORK, HOME, SCHOOL" `,
-        path: "/api/todo",
+        path: "/api/todo/",
       });
     }
 
@@ -92,7 +92,25 @@ const postTodo = async (req = request, res = response) => {
 };
 
 //Actualizar todo / privado solo usuarios con token
-const putTodo = async (req = request, res = response) => {};
+const putTodo = async (req = request, res = response) => {
+  const { id } = req.params;
+  const { user, ...todoB } = req.body;
+  try {
+    const todoDB = await Todo.findByIdAndUpdate(id, todoB, { new: true });
+    res.status(200).json({
+      error: false,
+      msg: "Todo actualizado",
+      todo: todoDB,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error: 500,
+      msg: "Hable con el administrador",
+      path: "/api/todo/{id}",
+    });
+  }
+};
 
 //Eliminar todo / privado solo usuarios con token
 const deleteTodo = async (req = request, res = response) => {};

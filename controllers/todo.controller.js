@@ -2,14 +2,29 @@ const { request, response } = require("express");
 const Todo = require("../models/todo");
 
 //Obtener todo por Id
-const getTodoById = async (req = request, res = response) => {};
+const getTodoById = async (req = request, res = response) => {
+  const { id } = req.params;
+  try {
+    const todoDB = await Todo.findById(id);
+    res.status(200).json({
+      error: false,
+      todo: todoDB,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error: 500,
+      msg: "Hable con el administrador",
+      path: "/api/todo",
+    });
+  }
+};
 
 //Obtener los todos por Usuario
 const getTodosByUser = async (req = request, res = response) => {};
 
 //Crear todo / privado solo usuarios con token
 const postTodo = async (req = request, res = response) => {
-
   let { bodyTodo, category } = req.body;
   //validación categoria exists
   if (!category) {
@@ -18,11 +33,10 @@ const postTodo = async (req = request, res = response) => {
       msg: "La categoria es requerida",
       path: "/api/todo",
     });
-  
   }
   category = category.toUpperCase();
   const categoryValid = ["WORK", "HOME", "SCHOOL"];
-  
+
   try {
     //validación categoria
     if (!categoryValid.includes(category)) {

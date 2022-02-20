@@ -1,3 +1,4 @@
+const Todo = require("../models/todo");
 const User = require("../models/user");
 
 const idUserExists = async (id) => {
@@ -7,6 +8,14 @@ const idUserExists = async (id) => {
   }
 };
 
+const idTodoExists = async (id) => {
+  const todoDB = await Todo.findById(id);
+  if (!todoDB) {
+    throw new Error(`El todo con id: ${id} no existe`);
+  }
+};
+
 module.exports = {
   idUserExists,
+  idTodoExists,
 };

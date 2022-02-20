@@ -33,7 +33,7 @@ class Server {
 
   routes() {
     this.app.use(this.path.auth, require("../routes/auth.route"));
-    this.app.user(this.path.todo, require("../routes/todo.route"));
+    this.app.use(this.path.todo, require("../routes/todo.route"));
     this.app.use(this.path.user, require("../routes/user.route"));
   }
 

@@ -11,6 +11,11 @@ const TodoSchema = Schema(
       enum: ["completed", "incomplete"],
       default: "incomplete",
     },
+    category: {
+      type: String,
+      enum: ["WORK", "HOME", "SCHOOL"],
+      required: true,
+    },
     user: {
       type: Schema.Types.ObjectId,
       ref: "User",

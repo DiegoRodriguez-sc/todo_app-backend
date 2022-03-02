@@ -35,7 +35,7 @@ const loginAuth = async (req = request, res = response) => {
       });
     }
     //todo okey generamos token
-    const token =await generarJWT(userDB._id);
+    const token = await generarJWT(userDB._id);
     res.status(200).json({
       error: false,
       msg: "Login ok",
@@ -90,7 +90,23 @@ const registerAuth = async (req = request, res = response) => {
   }
 };
 
+//revalidación de usuario
+const revalidationAuth = async (req = request, res = response) => {
+  const { _id } = req.user;
+  //generar token
+  const token = await generarJWT(_id);
+  res.status(200).json({
+    error: false,
+    msg: "Token revalidado",
+    data: {
+      token,
+      user: req.user,
+    },
+  });
+};
+
 module.exports = {
   loginAuth,
   registerAuth,
+  revalidationAuth,
 };

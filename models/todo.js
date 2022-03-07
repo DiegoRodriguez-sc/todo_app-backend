@@ -7,9 +7,8 @@ const TodoSchema = Schema(
       required: [true, "Texto del todo requerido"],
     },
     status: {
-      type: String,
-      enum: ["completed", "incomplete"],
-      default: "incomplete",
+      type: Boolean,
+      default: false,
     },
     category: {
       type: String,

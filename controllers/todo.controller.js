@@ -116,10 +116,11 @@ const putTodo = async (req = request, res = response) => {
 const deleteTodo = async (req = request, res = response) => {
   const { id } = req.params;
   try {
-    await Todo.findByIdAndRemove(id);
+    const todoDB = await Todo.findByIdAndRemove(id);
     res.status(200).json({
       error: false,
       msg: "Todo borrado",
+      todo: todoDB,
     });
   } catch (error) {
     console.log(error);
